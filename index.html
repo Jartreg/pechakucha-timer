@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>ぺちゃくちゃ Timer</title>
+	</head>
+	<body>
+		<div id="bar"></div>
+		<div id="seconds">20</div>
+		<style>
+			body {
+				font-family: sans-serif;
+				background: black;
+			}
+
+			#seconds {
+				font-size: min(60vh, 70vw);
+				color: white;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				text-align: right;
+			}
+
+			#bar {
+				position: absolute;
+				top: 0;
+				left: 0;
+				background: cyan;
+				height: 5vh;
+			}
+		</style>
+		<script type="text/javascript">
+			const el = document.getElementById("seconds");
+			const bar = document.getElementById("bar");
+			let start = Date.now();
+			let current = 0;
+			requestAnimationFrame(update);
+			function update() {
+				const time = (Date.now() - start) / 1000 % 20;
+				const displayVal = Math.ceil(20 - time);
+				if (current !== displayVal) {
+					el.innerText = displayVal;
+					current = displayVal;
+				}
+				const p = time / 20;
+				const q = Math.pow(p, 3);
+				bar.style.width = (p * 100) + "%";
+				bar.style.background = `rgb(${q * 255}, ${(1 - q) * 100 + 100}, ${(1 - q) * 255})`;
+				requestAnimationFrame(update);
+			}
+		</script>
+	</body>
+</html>
